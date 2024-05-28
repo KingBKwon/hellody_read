@@ -16,7 +16,7 @@ env:
   ECS_SERVICE: hellodyReadServer  
   ECS_CLUSTER: hellodyRserver                 
   ECS_TASK_DEFINITION: ./task-definition.json
-  CONTAINER_NAME: itstudy1     
+  CONTAINER_NAME: hellody_read     
 
 jobs:
   build:
