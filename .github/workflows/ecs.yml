@@ -34,7 +34,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::730335352929:role/cicduser
+          role-to-assume: arn:aws:iam::730335352929:role/backend
           role-session-name: sampleSessionName
           aws-region: ap-northeast-2
 
