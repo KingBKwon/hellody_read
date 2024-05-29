@@ -6,7 +6,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # 작업 디렉토리 설정
-WORKDIR /usr/src
+WORKDIR /app
 
 # requirements.txt 복사 및 설치
 COPY requirements.txt ./
@@ -15,8 +15,6 @@ RUN pip install -r requirements.txt
 # 전체 소스 코드 복사
 COPY . .
 
-# 포트 노출
-EXPOSE 8000
 
 # 컨테이너 시작 시 실행할 명령어
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
