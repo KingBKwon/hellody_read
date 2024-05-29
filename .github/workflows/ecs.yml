@@ -17,28 +17,18 @@ env:
   ECS_CLUSTER: hellodyRserver                 
   ECS_TASK_DEFINITION: ./task-definition.json
   CONTAINER_NAME: hellody_read
-  
-  
-  
 
 jobs:
   build:
     runs-on: ubuntu-latest
       
     steps:
-      - name: .env File create
+      - name: Create .env File
         run: |
-          echo "MONGO_USERNAME=$MONGO_USERNAME" >> .env
-          echo "MONGO_PASSWORD=$MONGO_PASSWORD" >> .env
-          echo "MONGO_HOST=$MONGO_HOST" >> .env
-          echo "MONGO_PORT=$MONGO_PORT" >> .env
-
-
-        env:
-          MONGO_USERNAME: ${{secrets.MONGO_USERNAME}}
-          MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}
-          MONGO_HOST: ${{secrets.MONGO_HOST}}
-          MONGO_PORT: ${{secrets.MONGO_PORT}}
+          echo "MONGO_USERNAME=${{secrets.MONGO_USERNAME}}" >> .env
+          echo "MONGO_PASSWORD=${{secrets.MONGO_PASSWORD}}" >> .env
+          echo "MONGO_HOST=${{secrets.MONGO_HOST}}" >> .env
+          echo "MONGO_PORT=${{secrets.MONGO_PORT}}" >> .env
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -57,12 +47,11 @@ jobs:
         run: docker-compose build
       
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::730335352929:role/fastapicicid
           role-session-name: sampleSessionName
           aws-region: ap-northeast-2
-
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -93,4 +82,3 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
-
