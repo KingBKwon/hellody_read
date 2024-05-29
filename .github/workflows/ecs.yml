@@ -23,41 +23,42 @@ jobs:
     runs-on: ubuntu-latest
       
     steps:
-      - name: Create .env File
+      - name: .env 파일 생성
         run: |
           echo "MONGO_USERNAME=${{secrets.MONGO_USERNAME}}" >> .env
           echo "MONGO_PASSWORD=${{secrets.MONGO_PASSWORD}}" >> .env
           echo "MONGO_HOST=${{secrets.MONGO_HOST}}" >> .env
           echo "MONGO_PORT=${{secrets.MONGO_PORT}}" >> .env
+          echo "MONGO_DB=${{secrets.MONGO_DB}}" >> .env
 
-      - name: Checkout
+      - name: 체크아웃
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.10
+      - name: Python 3.10 설정
         uses: actions/setup-python@v4
         with: 
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: 의존성 설치
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Build Docker Compose
+      - name: Docker Compose 빌드
         run: docker-compose build
       
-      - name: Configure AWS Credentials
+      - name: AWS 자격 증명 설정
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::730335352929:role/fastapicicid
           role-session-name: sampleSessionName
           aws-region: ap-northeast-2
 
-      - name: Login to Amazon ECR
+      - name: Amazon ECR 로그인
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
         
-      - name: Build, tag, and push image to Amazon ECR
+      - name: 이미지 빌드, 태그 및 Amazon ECR로 푸시
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -67,7 +68,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
+      - name: Amazon ECS 작업 정의에 새로운 이미지 ID 채우기
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -75,7 +76,7 @@ jobs:
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
   
-      - name: Deploy Amazon ECS task definition
+      - name: Amazon ECS 작업 정의 배포
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
