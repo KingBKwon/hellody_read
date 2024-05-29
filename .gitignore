@@ -12,5 +12,4 @@
 /app/routes/detailpage/routes/kids/season/episode/__pycache__
 /app/routes/login/__pycache__
 /app/routes/user/__pycache__
-
-task-definition.json
+*.json
