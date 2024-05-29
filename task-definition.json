@@ -3,7 +3,6 @@
     "containerDefinitions": [
         {
             "name": "hellody_read",
-            "image": "730335352929.dkr.ecr.ap-northeast-2.amazonaws.com/hellody_read",
             "cpu": 0,
             "portMappings": [
                 {
