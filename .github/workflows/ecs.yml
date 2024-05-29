@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
 
-permissions:
+permissions:gi t
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
 
