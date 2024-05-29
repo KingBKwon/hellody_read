@@ -39,7 +39,7 @@ class MongoDB:
 
     def connect(self):
         self.client = AsyncIOMotorClient(MONGO_DB_URL)
-        self.engine = AIOEngine(client=self.client, database=MONGO_DB)
+        self.engine = AIOEngine(client=self.client, database=MONGO_DB) #database명
         print("Connected to the database.")
 
     def close(self):
