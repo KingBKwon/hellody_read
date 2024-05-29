@@ -10,7 +10,13 @@ permissions:
   id-token: write 
   contents: read  
 
-
+env:
+  AWS_REGION: ap-northeast-2
+  ECR_REPOSITORY: hellody_read  
+  ECS_SERVICE: hellodyReadServer  
+  ECS_CLUSTER: hellodyRserver                 
+  ECS_TASK_DEFINITION: ./task-definition.json
+  CONTAINER_NAME: hellody_read
   
   
   
@@ -27,13 +33,8 @@ jobs:
           echo "MONGO_HOST=$MONGO_HOST" >> .env
           echo "MONGO_PORT=$MONGO_PORT" >> .env
 
+
         env:
-          AWS_REGION: ap-northeast-2
-          ECR_REPOSITORY: hellody_read  
-          ECS_SERVICE: hellodyReadServer  
-          ECS_CLUSTER: hellodyRserver                 
-          ECS_TASK_DEFINITION: ./task-definition.json
-          CONTAINER_NAME: hellody_read
           MONGO_USERNAME: ${{secrets.MONGO_USERNAME}}
           MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}
           MONGO_HOST: ${{secrets.MONGO_HOST}}
