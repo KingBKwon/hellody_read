@@ -21,8 +21,11 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-      
+
     steps:
+      - name: 체크아웃
+        uses: actions/checkout@v3
+
       - name: .env 파일 생성
         run: |
           echo "MONGO_USERNAME=${{secrets.MONGO_USERNAME}}" >> .env
@@ -30,9 +33,6 @@ jobs:
           echo "MONGO_HOST=${{secrets.MONGO_HOST}}" >> .env
           echo "MONGO_PORT=${{secrets.MONGO_PORT}}" >> .env
           echo "MONGO_DB=${{secrets.MONGO_DB}}" >> .env
-
-      - name: 체크아웃
-        uses: actions/checkout@v3
 
       - name: Python 3.10 설정
         uses: actions/setup-python@v4
@@ -46,7 +46,7 @@ jobs:
 
       - name: Docker Compose 빌드
         run: docker-compose build
-      
+
       - name: AWS 자격 증명 설정
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -75,7 +75,7 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
-  
+
       - name: Amazon ECS 작업 정의 배포
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:

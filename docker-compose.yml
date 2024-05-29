@@ -5,7 +5,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    #django인지 fastapi인지는 여기만 바뀌면 됨  
     command: "uvicorn app.main:app --host 0.0.0.0 --port 8000"
     ports:
       - "8000:8000"
+    environment:
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_DB=${MONGO_DB}
