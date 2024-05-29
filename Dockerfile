@@ -10,6 +10,7 @@ WORKDIR /app
 
 # requirements.txt 복사 및 설치
 COPY requirements.txt ./
+COPY .env ./
 RUN pip install -r requirements.txt
 
 # 전체 소스 코드 복사
