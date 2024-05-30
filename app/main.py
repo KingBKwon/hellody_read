@@ -9,7 +9,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"], # 허용할 origin을 설정하세요
+    allow_origins=["*"], # 허용할 origin을 설정하세요
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -25,4 +25,4 @@ async def index():
     return "hellody read-server"
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host='127.0.0.1', port = 8000, reload=True)
+    uvicorn.run("main:app", host='127.0.0.1', port = 80, reload=True)
